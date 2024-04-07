@@ -1,0 +1,2039 @@
+#:import ZBarCam kivy_garden.zbarcam.ZBarCam
+
+ChangeScreen:
+
+
+<ChangeScreen@MDScreenManager>:
+    # Screenmanager help to switch between screens
+    Login:
+        name: "Login"
+
+    Basics:
+        name: "Basics"
+
+    Addr:
+        name: "Addr"
+
+    Final:
+        name: "Final"
+
+    T_and_C:
+        name: "TandC"
+
+    ForgetPassword:
+        name: "FPWD"
+
+    # -- Store Screens --
+    STRHome:
+        name: 'CHomePage'
+
+    AddItemCart:
+        name: 'AddDB'
+
+    CreateQR:
+        name: 'CreateQr'
+
+    CreateQROut:
+        name: 'CreateQROut'
+
+    DeleteFromCart:
+        name: 'removeFromCart'
+
+    DeleteCartItems:
+        name: 'DeleteCartItems'
+
+    Offers:
+        name: 'Offers'
+
+    ViewStock:
+        name: 'ViewStock'
+
+    WithdrawAmount:
+        name: 'WithdrawAmount'
+
+    # -- UserScreen --
+    CTMHome:
+        name: 'CTMHome'
+
+    ShoppingList:
+        name: 'ShoppingList'
+    
+    Addcash:
+        name: 'Addcash'
+
+    TransferAmd:
+        name: 'TransferAmd'
+    
+    Offline:
+        name: 'Offline'
+
+    MoreRecomd:
+        name: 'MoreRecomd'
+
+    RewardScreen:
+        name: 'RewardScreen'
+
+
+
+<ListItemWithCheckbox>:
+
+    IconLeftWidget:
+        icon: 'arrow-right'
+
+    RightCheckbox:
+        id: cb
+
+
+<Login>:
+
+    MDCard:
+        size_hint: None, None
+        size: 420,450
+        pos_hint:{"center_x":0.5, 'center_y':0.5}
+        elevation: 5
+        radius: 20
+        padding:10
+        spacing: 10
+        orientation: "vertical"
+
+        MDGridLayout:
+            cols:1
+            padding:5
+            spacing: 5
+
+            MDAnchorLayout:
+                MDIcon:
+                    icon: 'account-circle'
+                    font_size: 90
+                    halign: "center"
+
+            MDTextField:
+                id: Uname
+                hint_text: "Username"
+                multiline: False
+                requried: True
+                icon_right: "account-circle-outline"
+                on_double_tap: self.text = '9400642545'
+
+            MDTextField:
+                id: Pass
+                hint_text: "Password"
+                disabled: False
+                multiline: False
+                password: True
+                requried: True
+                icon_right: "eye-off-outline"
+                on_double_tap: self.text = 'Ananthu@28'
+
+            MDStackLayout:
+                padding: 10
+                spacing: 20
+
+                MDRectangleFlatIconButton:
+                    id: clear
+                    icon: 'trash-can'
+                    text: "clear"
+                    size_hint: 0.5, None
+                    text_color: 1, 0, 0, 1
+                    icon_color: 1, 0, 0, 8
+                    line_color: 1, 0, 0, 8
+                    on_press:
+                        root.ids.Uname.text = "";root.ids.Pass.text = ""
+
+                MDRectangleFlatIconButton:
+                    id: Submit
+                    icon: 'account-check'
+                    text: "submit"
+                    size_hint: 0.5, None
+                    on_press:
+                        root.validate()
+
+                MDFlatButton:
+                    text: "Forget Password ?"
+                    on_release:
+                        root.manager.transition.direction = "right"
+                        root.manager.current = "FPWD"
+                        root.ids.Uname.text = ""
+                        root.ids.Pass.text = ""
+
+            MDSeparator:
+                height:"1dp"
+
+            MDFlatButton:
+                text: "Didn't have account ?  Sign Up"
+                size_hint: 1, 0.1
+                pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+                on_press:
+                    root.manager.transition.direction = 'left'
+                    root.manager.current = "Basics"
+                    root.ids.Uname.text = ""
+                    root.ids.Pass.text = ""
+
+
+<Basics>:
+
+    MDStackLayout:
+        spacing:10
+
+        MDProgressBar:
+            # Process bar help to view the line of progress
+            value: 25
+
+    MDCard:
+        elevation: 5
+        radius: 20
+        spacing: 10
+        padding: 10
+        size_hint: None, None
+        size: 420,450
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        # Pos_hint help to change the position the object
+        orientation: "vertical"
+
+        MDGridLayout:
+            cols: 1
+            spacing: 12
+            padding: 10
+
+            MDLabel:
+                # MDLabel is just a text to show
+                text: "New User"
+                halign: "center"
+                font_size: 20
+
+            MDSeparator:
+                width: 1
+
+            MDTextField:
+                id: Fname
+                hint_text: "Name"
+                requried: True
+                mode: "rectangle"
+                on_quad_touch: self.text = 'Ananthu'
+                # Quad_touch help to set the default value to the textfield
+
+            MDTextField:
+                id: PHno
+                hint_text: "Phone number"
+                input_filter: "int"
+                # input filter help to filter the number only
+                requried: True
+                mode: "rectangle"
+                helper_text: "(+91)"
+                # helper text show the mode of input
+                helper_text_mode: "on_focus"
+                max_text_length: 10
+                # Max length show error if length is more than 10
+                on_text: root.SignOTP()
+                on_quad_touch: self.text = '9400642545'
+
+            MDTextField:
+                id: SOTP
+                hint_text: "OTP"
+                input_filter: "int"
+                mode: "rectangle"
+                requried: True
+                on_text: root.ValidOTP()
+
+            MDTextField:
+                id: Email
+                hint_text: "E-mail"
+                requried: True
+                mode: "rectangle"
+                on_quad_touch: self.text = 'ananthus1687'
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+
+                MDFlatButton:
+                    text: "< Back"
+                    size_hint: 0.5,None
+                    on_press:
+                        root.ids.Fname.text = ''
+                        root.ids.PHno.text = ''
+                        root.ids.SOTP.text = ''
+                        root.ids.Email.text = ''
+
+                    on_release:
+                        root.manager.transition.direction = "right"
+                        root.manager.current = "Login"
+                        # To change direction to other screen
+
+                MDFlatButton:
+                    text: "Continue >"
+                    size_hint: 0.5, None
+                    on_release:
+                        root.Details()
+
+
+<Addr>:
+
+    MDStackLayout:
+        spacing:10
+
+        MDProgressBar:
+            value: 50
+
+    MDCard:
+        radius: 20
+        elevation: 5
+        spacing: 10
+        padding: 10
+        size_hint: None, None
+        size: 420,450
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        orientation: "vertical"
+
+        MDGridLayout:
+            cols: 1
+            spacing: 12
+            padding: 10
+
+            MDLabel:
+                text: "Address"
+                halign: "center"
+                font_size: 20
+
+            MDSeparator:
+                width: 1
+
+            MDTextField:
+                id: State
+                hint_text: "State"
+                mode: "rectangle"
+                requried: True
+                on_quad_touch: self.text = 'Kerala'
+
+            MDTextField:
+                id: distict
+                hint_text: "District"
+                mode: "rectangle"
+                requried: True
+                on_quad_touch: self.text = 'Kozhikode'
+
+            MDTextField:
+                id: city
+                hint_text: "City"
+                mode: "rectangle"
+                requried: True
+                on_quad_touch: self.text = 'Kunnamangalam'
+
+            MDTextField:
+                id: St
+                hint_text: "St. Name"
+                mode: "rectangle"
+                requried: True
+                on_quad_touch: self.text = 'NITC'
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+
+                MDFlatButton:
+                    text: "< Back"
+                    size_hint: 0.5,None
+                    on_press:
+                        root.ids.State.text = ''
+                        root.ids.distict.text = ''
+                        root.ids.city.text = ''
+                        root.ids.St.text = ''
+
+                    on_release:
+                        root.manager.transition.direction = "right"
+                        root.manager.current = "Basics"
+
+                MDFlatButton:
+                    text: "Continue >"
+                    size_hint: 0.5, None
+                    on_release:
+                        root.Details()
+
+
+<Final>:
+
+    MDStackLayout:
+        spacing:10
+
+        MDProgressBar:
+            value: 75
+
+    MDCard:
+        radius: 20
+        elevation: 5
+        spacing: 10
+        padding: 10
+        size_hint: None, None
+        size: 420,450
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        orientation: "vertical"
+
+        MDGridLayout:
+            cols: 1
+            spacing: 12
+            padding: 10
+
+            MDLabel:
+                text: "Last Step to Go"
+                halign: "center"
+                font_size: 20
+
+            MDSeparator:
+                width: 1
+
+            MDTextField:
+                id: User_id
+                hint_text: "Username"
+                mode: "rectangle"
+                readonly: True
+
+            MDTextField:
+                id: Npswd
+                hint_text: "Enter password"
+                requried: True
+                password: True
+                mode: "rectangle"
+
+            MDTextField:
+                id: Cpswd
+                hint_text: "Confirm password"
+                helper_text: "Password didn't Match"
+                helper_text_mode: 'on_error'
+                requried: True
+                password: True
+                mode: "rectangle"
+                on_text: root.compareText()
+
+            MDTextField:
+                id: Reference
+                hint_text: "Reference Code"
+                helper_text: "Enter reference No. if available"
+                helper_text_mode: "on_focus"
+                mode: "rectangle"
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+
+                MDFlatButton:
+                    text: "< Back"
+                    size_hint: 0.5,None
+
+                    on_press:
+                        root.ids.Npswd.text = ''
+                        root.ids.Cpswd.text = ''
+                        root.ids.Reference.text = ''
+
+                    on_release:
+                        root.manager.transition.direction = "right"
+                        root.manager.current = "Addr"
+
+                MDFlatButton:
+                    text: "Continue >"
+                    size_hint: 0.5, None
+                    on_release:
+                        root.Details()
+
+
+<T_and_C>:
+
+    MDStackLayout:
+        spacing:10
+
+        MDProgressBar:
+            value: 100
+
+    MDCard:
+        radius: 20
+        elevation: 5
+        spacing: 10
+        padding: 10
+        size_hint: None, None
+        size: 420,450
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        orientation: "vertical"
+
+        MDGridLayout:
+            cols: 1
+            spacing: 12
+            padding: 10
+
+        MDLabel:
+            text: "Terms and condition"
+            halign: "center"
+
+        MDSeparator:
+            width: 1
+
+        MDTextFieldRect:
+            id: T_and_C
+            text: "***terms and Condition***"
+            size_hint: 1,1
+            multiline: True
+            readonly: True
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint: 1, None
+            height: self.minimum_height
+
+            MDCheckbox:
+                id : Agree
+                size_hint: None, None
+                size: dp(48), dp(48)
+                active: True
+
+            MDLabel:
+                text: "I'm agree with 'terms and conditions"
+
+        MDBoxLayout:
+            orientation: 'horizontal'
+
+            MDFlatButton:
+                text: "< Back"
+                size_hint: 0.5,None
+                on_press:
+                    root.manager.transition.direction = "right"
+                    root.manager.current = "Final"
+
+            MDFlatButton:
+                text: "Finish >"
+                on_press: root.Add_data()
+                size_hint: 0.5, None
+
+
+<ForgetPassword>:
+
+    MDCard:
+        radius: 20
+        elevation: 5
+        spacing: 10
+        padding: 10
+        size_hint: None, None
+        size: 420,450
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        orientation: "vertical"
+
+        MDGridLayout:
+            cols: 1
+            spacing: 12
+            padding: 10
+
+            MDLabel:
+                text: "Renew Password"
+                halign: "center"
+                font_size: 20
+
+            MDSeparator:
+                width: 1
+
+            MDTextField:
+                id: NewPWdPh
+                hint_text: "Phone Number "
+                mode: "rectangle"
+                requried: True
+                input_filter: "int"
+                max_text_length: 10
+                min_text_length: 10
+                on_text: root.VerifyItsME()
+
+            MDTextField:
+                id: OTP
+                hint_text: "OTP"
+                mode: "rectangle"
+                requried: True
+                input_filter: "int"
+                on_text: root.VerifyOTP(self.text)
+
+            MDTextField:
+                id: CNPWD
+                hint_text: "New password"
+                requried: True
+                password: True
+                mode: "rectangle"
+
+            MDTextField:
+                id: CCPWD
+                hint_text: "Confirm password"
+                requried: True
+                password: True
+                mode: "rectangle"
+                on_text: root.compareText()
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+
+                MDFlatButton:
+                    text: "Back"
+                    size_hint: 0.5,None
+                    on_press:
+                        root.manager.transition.direction = 'left'
+                        root.manager.current = "Login"
+
+                        root.ids.NewPWdPh.text = ''
+                        root.ids.OTP.text = ''
+                        root.ids.CNPWD.text = ''
+                        root.ids.CCPWD.text = ''
+
+                MDFlatButton:
+                    id: CBTN
+                    text: "Confirm"
+                    size_hint: 0.5, None
+                    on_release: root.ChangeOTPPWd()
+
+
+<STRHome>:
+
+    MDBottomNavigation:
+    # --Bottom Icon badge to swtch between screens --
+
+        MDBottomNavigationItem:
+            name: "screen 1"
+            id: Home
+            text: "Home"
+            icon: "office-building-marker-outline"
+
+            MDStackLayout:
+                padding: 10
+                spacing: 10
+
+                MDCard:
+                    # -- Title card Show the name of the app --
+                    padding: 5
+                    spacing: 10
+                    size_hint: 1, 0.15
+                    elevation: 2
+                    radius: 15
+                    orientation: 'horizontal'
+
+                    MDLabel:
+                        text: " E-KART - Business"
+                        font_size: 25
+                        color: "#FFA100"
+                        bold: True
+
+                    MDIconButton:
+                        # -- Open settings --
+                        icon: "dots-vertical"
+                        icon_size: 30
+                        pos_hint: {'center_x': 0.0,'center_y': 0.5}
+                        on_press: print("settings")
+
+                MDSeparator:
+                    width: 1
+
+                MDCard:
+                    elevation: 2
+                    radius: 0
+                    pos_hint: {'top': 1.0}
+                    size_hint: 1, 0.069
+
+                    MDLabel:
+                        id: StrB
+                        halign: 'center'
+                        text: 'Balance : 0  ₹'
+
+                MDSeparator:
+
+                MDGridLayout:
+                    spacing: 10
+                    padding: 10
+                    cols: 3
+                    size_hint: 1, 0.5
+                    pos_hint: {'center_x': 0.0,'y': 0.5}
+                    # -- Essential buttons --
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: addToCart
+                            pos_hint: {'center_x': 0.5}
+                            icon: 'tray-arrow-down'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'down'
+                                root.manager.current = 'AddDB'
+
+                        MDLabel:
+                            text: 'ADD ITEM'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: CreateQRCode
+                            pos_hint: {'center_x': 0.5}
+                            icon: 'qrcode'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'down'
+                                root.manager.current = 'CreateQr'
+
+                        MDLabel:
+                            text: 'CREATE QRCODE'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: DeleteCart
+                            pos_hint: {'center_x': 0.5}
+                            icon: 'tray-arrow-up'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'down'
+                                root.manager.current = 'removeFromCart'
+
+                        MDLabel:
+                            text: 'DELETE ITEM'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: stat
+                            pos_hint: {'center_x': 0.5}
+                            icon: 'brightness-percent'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'up'
+                                root.manager.current = 'Offers'
+
+                        MDLabel:
+                            text: 'ADD OFFERS'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: ViewStock
+                            pos_hint: {'center_x': 0.5}
+                            icon: 'tray-full'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'up'
+                                root.manager.current = 'ViewStock'
+
+                        MDLabel:
+                            text: 'VIEW STOCK'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: stat
+                            pos_hint: {'center_x': 0.5}
+                            icon: 'truck-fast-outline'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_release: root.show_online_order_dialog()
+
+                        MDLabel:
+                            text: 'ORDER STOCK'
+                            font_size: 12
+                            halign: 'center'
+
+                MDSeparator:
+                    width: 1
+
+                MDRectangleFlatIconButton:
+                    icon: 'logout-variant'
+                    text: 'log-out'
+
+                    size_hint: 1, 0.02
+                    line_color: 0, 0, 0, 0
+                    text_color: 1, 1, 1, 0.7
+                    icon_color: 1, 1, 1, 0.7
+
+                    on_press: root.confirmLogout()
+
+                MDSeparator:
+                    width: 1
+
+        MDBottomNavigationItem:
+            name: 'screen 2'
+            id: Profile
+            text: "Profile"
+            icon: "dots-triangle"
+
+            MDStackLayout:
+                spacing: 15
+                padding: 20
+
+                MDCard:
+                    spacing: 10
+                    padding: 10
+                    radius: 40
+                    size_hint: 1, None
+                    height: self.height
+
+                    MDBoxLayout:
+                        spacing: 25
+
+                        MDIcon:
+                            icon: "account-supervisor-circle"
+                            font_size: 80
+
+                        MDLabel:
+                            id: StoreName
+                            text: 'root.StoreName'
+                            bold: True
+
+                MDCard:
+                    spacing: 10
+                    padding: 10
+                    elevation: 2
+                    size_hint: 1, 0.07
+
+                    MDLabel:
+                        id: storeBlnc
+                        halign: 'center'
+                        text: '0 ₹'
+
+                MDCard:
+                    spacing: 10
+                    padding: 10
+                    radius: 40
+                    size_hint: 1, 0.45
+
+                    MDList:
+
+                        OneLineListItem:
+                            id: storeID
+                            text: 'root.StoreID'
+
+                        OneLineListItem:
+                            id: storeEmail
+                            text: 'root.Email'
+
+                        OneLineListItem:
+                            id: storeAddr
+                            text: 'root.addr'
+
+                        OneLineListItem:
+                            id: storeNo
+                            text: '(+91) 0000000000'
+
+                        MDRectangleFlatIconButton:
+                            text: 'edit'
+                            icon: 'pencil'
+                            size_hint: 1, None
+                            line_color: 0,0,0,0
+
+                MDSeparator:
+
+                MDGridLayout:
+                    rows: 1
+                    spacing: 10
+                    size_hint: 1, None
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        spacing: 5
+                        radius: [25,0,0,25]
+                        size_hint: 0.5, None
+                        orientation: "vertical"
+                        on_release:
+                            root.manager.transition.direction = 'up'
+                            root.manager.current = 'WithdrawAmount'
+
+                        MDIcon:
+                            id: withdraw
+                            icon: 'hand-coin-outline'
+                            pos_hint: {'right': 0.55}
+                            bold: True
+
+                        MDLabel:
+                            text: "WITHDRAW"
+                            halign: 'center'
+                            bold: True
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        spacing: 5
+                        radius: [0,25,25,0]
+                        size_hint: 0.5, None
+                        orientation: "vertical"
+
+                        MDIcon:
+                            id: Income
+                            icon: 'currency-inr'
+                            pos_hint: {'right': 0.55}
+                            bold: True
+
+                        MDLabel:
+                            text: "INCOME"
+                            halign: 'center'
+                            bold: True
+
+
+<AddItemCart>:
+
+    MDStackLayout:
+        spacing: 10
+        padding: 15
+        pos_hint: {'center_x': 0.5}
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 12
+            on_press:
+                root.Confirm_leave()
+
+        MDSeparator:
+            width: 1
+
+        MDCard:
+            spacing: 10
+            padding: 10
+            orientation: 'vertical'
+            size_hint: 1, 0.83
+
+            MDLabel:
+                text: 'ADD ITEM(S)'
+                halign: 'center'
+                pos_hint: {'center_x': 0.5,'center_y': 0.4}
+                size: '50dp','50dp'
+                bold: True
+
+            MDSeparator:
+                width: 1
+
+            MDTextField:
+                id: ItemName
+                hint_text: 'Product name'
+                mode: 'rectangle'
+                requried: True
+                on_text: app.Text_Capital(self)
+
+            MDTextField:
+                id: batchNumber
+                hint_text: 'Batch Number'
+                mode: 'rectangle'
+                helper_text: 'month(A,B,C,D)& Year(00)'
+                helper_text_mode: 'on_focus'
+                max_text_length: 3
+                requried: True
+                on_text: app.Text_Capital(self)
+
+            MDTextField:
+                id: NumberOfItem
+                hint_text: 'Total Number of item in batch'
+                mode: 'rectangle'
+                helper_text: '1-100'
+                helper_text_mode: 'on_focus'
+                max_text_length: 3
+                requried: True
+                input_filter: "int"
+                on_text: root.Verify_no_item(self)
+
+            MDTextField:
+                id: ItemPrice
+                hint_text: 'Price'
+                helper_text: '0-999'
+                helper_text_mode: 'on_focus'
+                mode: 'rectangle'
+                max_text_length: 3
+                requried: True
+                input_filter: "int"
+
+            MDTextField:
+                id: location
+                hint_text: 'location of the product'
+                mode: 'rectangle'
+                helper_text: 'HEX values'
+                helper_text_mode: 'on_focus'
+                max_text_length: 3
+                requried: True
+                on_text:
+                    app.Text_Capital(self)
+                    root.VerifyStoreItem(self.text)
+
+            MDGridLayout:
+                cols: 2
+                spacing: 10
+                size_hint: 1, None
+                height: self.minimum_height
+
+                MDTextField:
+                    id: DateTField
+                    hint_text: 'Expiry Date'
+                    mode: 'rectangle'
+                    readonly: True
+                    on_text: print(self.text)
+                    input_filter: "date"
+
+                MDFlatButton:
+                    id: expDate
+                    text: 'Select Date'
+                    on_press: root.selectDate()
+                    size_hint: 0.2, 0.5
+
+            MDBoxLayout:
+                spacing: 5
+                padding: 10
+                size_hint: 1, None
+                height: self.minimum_height
+
+                MDFlatButton:
+                    id: clear
+                    text: 'clear'
+                    size_hint: 0.5, None
+                    on_press:
+                        root.ids.ItemName.text = ''
+                        root.ids.batchNumber.text = ''
+                        root.ids.NumberOfItem.text = ''
+                        root.ids.ItemPrice.text = ''
+                        root.ids.location.text = ''
+                        root.ids.DateTField.text = ''
+
+                MDFlatButton:
+                    id: Submit
+                    text: 'Submit'
+                    size_hint: 0.5, None
+                    on_press: root.ItemSumbit()
+
+
+<Offers>:
+
+    MDFlatButton:
+        text: '< BACK'
+        font_size: 12
+        pos_hint: {'top': 1.0}
+        on_press:
+            root.manager.transition.direction = 'down'
+            root.manager.current = 'CHomePage'
+
+            root.ids.OfferItemName.text = ''
+            root.ids.OfferDescri.text = ''
+            root.ids.OfferCode.text = ''
+            root.ids.NewPrice.text = ''
+
+    MDCard:
+        spacing: 10
+        padding: 10
+        orientation: 'vertical'
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        size_hint: 0.9, 0.6
+
+        MDLabel:
+            text: 'Product Offer'
+            halign: 'center'
+            bold: True
+
+        MDSeparator:
+            width: 1
+
+        MDTextField:
+            id: OfferItemName
+            hint_text: 'Item Name'
+            helper_text: 'Item name only valid'
+            requried: True
+            mode: 'rectangle'
+            on_text: app.Text_Capital(self)
+
+        MDTextField:
+            id: OfferDescri
+            hint_text: 'Discription'
+            mode: 'rectangle'
+            multiline: True
+            size_hint: 1, None
+            height: 1
+
+        MDTextField:
+            id: NewPrice
+            hint_text: '% of Offer'
+            mode: 'rectangle'
+            requried: True
+            input_filter: 'int'
+
+        MDTextField:
+            id: OfferCode
+            mode: 'rectangle'
+            hint_text: 'Offer Code'
+            max_text_length: 7
+            requried: True
+            on_text: app.Text_Capital(self)
+
+        MDBoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            padding: 10
+
+            MDFlatButton:
+                text: 'Clear'
+                size_hint: 1, None
+                on_press:
+                    root.ids.OfferItemName.text = ''
+                    root.ids.OfferDescri.text = ''
+                    root.ids.OfferCode.text = ''
+                    root.ids.NewPrice.text = ''
+
+            MDFlatButton:
+                text: 'Submit'
+                size_hint: 1, None
+                on_press:root.Button_confirm_press()
+
+
+<CreateQR>:
+
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 12
+
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.current = 'CHomePage'
+
+        MDSeparator:
+
+        MDCard:
+            spacing: 10
+            padding: 10
+            size_hint: 1, 0.9
+            orientation: 'vertical'
+
+            ScrollView:
+                scroll_timeout: 100
+                size_hint: 1, 0.9
+
+                MDList:
+                    id: ListViewItem
+
+
+<CreateQROut>:
+
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 12
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'CreateQr'
+
+        MDSeparator:
+
+        MDCard:
+            spacing: 10
+            padding: 10
+            size_hint:1, 0.85
+            orientation: 'vertical'
+
+            ScrollView:
+                size_hint: 1, 0.85
+                scroll_timeout: 50
+
+                MDGridLayout:
+                    id: ImageView
+                    cols: 3
+                    spacing: 5
+                    padding: 10
+
+        MDRaisedButton:
+            text: 'Save Image'
+            md_bg_color: [0.5, 1, 0.5, 1]
+            text_color: [0,0, 0, 1]
+            size_hint: 1, None
+            on_press: root.saveImage()
+
+
+<ViewStock>:
+
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 12
+
+            on_press:
+                root.manager.transition.direction = 'down'
+                root.manager.current = 'CHomePage'
+
+        MDSeparator:
+
+        MDCard:
+            spacing: 10
+            padding: 10
+            size_hint: 1, 0.9
+            orientation: 'vertical'
+
+            ScrollView:
+                size_hint: 1, 0.9
+
+                MDList:
+                    id: ListViewItem
+
+
+<DeleteFromCart>:
+
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 12
+
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.current = 'CHomePage'
+
+        MDSeparator:
+
+        MDCard:
+            spacing: 10
+            padding: 10
+            size_hint: 1, 0.9
+            orientation: 'vertical'
+
+            ScrollView:
+                size_hint: 1, 0.9
+
+                MDList:
+                    id: ListViewItem
+
+<DeleteCartItems>:
+
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 12
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'removeFromCart'
+
+        MDSeparator:
+
+        MDCard:
+            spacing: 10
+            padding: 5
+            size_hint: 1, 0.9
+            orientation: 'vertical'
+
+            MDBoxLayout:
+                spacing: 10
+                size_hint: 1, None
+                height: self.minimum_height
+                pos_hint: {'right': 1.5}
+
+                MDRectangleFlatButton:
+                    id: SelectButton
+                    text: 'Select All'
+                    disabled: False
+                    on_press:
+                        if self.text == 'Select All':\
+                        root.CheckBoxStatus(True)
+                        elif self.text == 'Deselect All':\
+                        root.CheckBoxStatus(False)
+                        else: pass
+
+                MDRaisedButton:
+                    text: 'Delete'
+                    disabled: False
+                    md_bg_color: [1,0,0,1]
+                    on_press: root.DeleteList()
+
+            ScrollView:
+                size_hint: 1, 0.9
+
+                MDList:
+                    id: ListViewItem
+
+
+<WithdrawAmount>:
+
+    MDBoxLayout:
+        padding: 20
+        spacing: 10
+
+        MDCard:
+            elevation: 2
+            spacing: 10
+            padding: 10
+            size_hint: 1, 0.55
+            orientation: 'vertical'
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+
+            MDLabel:
+                text: 'Withdraw'
+                halign: 'center'
+                font_size: 20
+
+            MDSeparator:
+
+            MDTextField:
+                id: STHUPI
+                requried: True
+                hint_text: 'UPI ID or Phone Number'
+                mode: 'rectangle'
+
+            MDTextField:
+                id: STHAmount
+                requried: True
+                hint_text: 'Amount'
+                mode: 'rectangle'
+                input_filter: 'int'
+                on_text: root.CheckBalance(self.text)
+
+            MDTextField:
+                id: STPPass
+                hint_text: 'Password'
+                mode: 'rectangle'
+                requried: True
+                password: True
+
+            MDBoxLayout:
+                spacing: 10
+                padding: 10
+                size_hint: 0.5, 1
+                pos_hint: {'right': 1.0}
+                height: self.minimum_height
+
+                MDFlatButton:
+                    text: 'Cancel'
+                    size_hint: 0.5, None
+                    on_press: root.ConfirmLeave()
+
+                MDRaisedButton:
+                    text: 'OK'
+                    size_hint: 0.5, None
+                    on_press: root.ConfirmWithdraw()
+
+
+<CTMHome>:
+    MDBottomNavigation:
+        id: btmNav
+        selected_color_background: [1, 0.7, 0.5, 1]
+        text_color_active: [1, 1, 1, 1]
+    # --Bottom Icon badge to swtch between screens --
+
+
+        MDBottomNavigationItem:
+            name: "screen 1"
+            id: Home
+            text: "Home"
+            icon: 'shopping-outline'
+
+            MDStackLayout:
+                padding: 15
+                spacing: 15
+
+                MDCard:
+                    # -- Title card Show the name of the app --
+                    padding: 5
+                    spacing: 10
+                    size_hint: 1, 0.15
+                    elevation: 2
+                    radius: 15
+                    orientation: 'horizontal'
+
+                    MDLabel:
+                        text: " E-KART"
+                        font_size: 25
+                        color: "#FFA100"
+                        bold: True
+
+                    MDIconButton:
+                        # -- for creating a list for product --
+                        icon: "clipboard-list-outline"
+                        icon_size: 25
+                        pos_hint: {'center_x': 0.0,'center_y': 0.5}
+                        on_press: 
+                            root.manager.transition.direction = 'down'
+                            root.manager.current = 'ShoppingList'
+
+                    MDIconButton:
+                        # -- Open settings --
+                        icon: 'tools'
+                        icon_size: 25
+                        pos_hint: {'center_x': 0.0,'center_y': 0.5}
+                        on_press: print("settings")
+
+                MDCard:
+                    elevation: 2
+                    radius: 0
+                    size_hint: 1, 0.069
+
+                    MDLabel:
+                        id: HomeSBln
+                        text: 'Balance: 0  ₹'
+                        halign: 'center'
+
+                MDSeparator:
+
+                MDBoxLayout:
+                    spacing: 10
+                    size_hint: 1, 0.085
+
+                    MDCard:
+                        elevation: 2
+                        padding: 20
+                        radius: [20,0,0,20]
+                        size_hint: 0.5, 1
+                        orientation: 'horizontal'
+                        on_press:
+                            root.manager.transition.direction = 'up'
+                            root.manager.current = 'Offline'
+
+                        MDIcon:
+                            icon: 'earth-off'
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+
+                        MDLabel:
+                            text: 'Scan & Pay'
+                            halign: 'center'
+                            bold: True
+
+                    MDCard:
+                        elevation: 2
+                        padding: 20
+                        radius: [0, 20, 20, 0]
+                        size_hint: 0.5, 1
+                        orientation: 'horizontal'
+                        on_press: root.OnlineOrder()
+
+                        MDLabel:
+                            text: 'Pay & Order'
+                            halign: 'center'
+                            bold: True
+
+                        MDIcon:
+                            icon: 'earth'
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+
+                MDGridLayout:
+                # -- GridLayout is a row/column alignment of items <Customizable> --
+                    rows: 1
+                    size_hint: 1, 0.03
+
+                    MDLabel:
+                        text: "Recomended Item"
+                        pos_hint: {'center_x': 0.5, "center_y": 0.5}
+                    MDFlatButton:
+                        text: "View More >"
+                        theme_text_color: "Custom"
+                        text_color: "#0078D4"
+                        on_press:
+                            root.manager.transition.direction = 'left'
+                            root.manager.current = 'MoreRecomd'
+
+                MDSeparator:
+
+                MDGridLayout:
+                    id: RemdItm
+                    rows: 2
+                    size_hint: 1, 0.5
+                    spacing: 5
+
+
+                MDSeparator:
+
+        MDBottomNavigationItem:
+            name: 'screen 2'
+            id: wallet
+            text: 'Wallet'
+            icon: 'wallet-outline'
+
+            MDStackLayout:
+                spacing: 15
+                padding: 15
+
+                MDCard:
+                    padding: 10
+                    spacing: 15
+                    elevation: 1
+                    size_hint: 1, 0.25
+                    elevation: 1.5
+                    radius: 25
+                    style: 'filled'
+                    orientation: 'vertical'
+                    # -- Greeting User --
+
+                    MDGridLayout:
+                        # -- Align the items in row : column manner --
+                        cols: 3
+                        spacing: 10
+                        padding: 10
+                        pos_hint: {'x': 0.0,'center_y': 0.5}
+
+                        MDIcon:
+                            # -- Profile picture --
+                            icon: 'account-circle'
+                            font_size: 75
+                            pos_hint: {'left': 1,'center_y': 0.5}
+                            # -- replace with profile picture --
+
+                        MDLabel:
+                            # -- Show Username --
+                            id: CTWUname
+                            pos_hint: {'center_x': 0.0,'center_y': 0.5}
+                            text: 'root.UserName'
+                            font_size: 20
+                            bold: True
+                            # -- name of User --
+
+                        MDLabel:
+                            id: CTWBaln
+                            text:  '0 ₹'
+                            halign: "right"
+                            # -- Amount in wallet --
+
+                    MDLabel:
+                        text: 'Total Balance'
+                        font_size: 12
+                        halign: 'right'
+
+                    MDLabel:
+                        id: USerPhoneNumberWT
+                        text: '(+91) 0000000000'
+                        font_size: 15
+                        halign: 'left'
+                        # -- User phone Number --
+
+                MDSeparator:
+                    width: 1     
+
+                MDBoxLayout:
+                    spacing: 10
+                    size_hint: 1, None
+                    orientation: 'horizontal'
+                    # -- Essential buttons --
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: addCash
+                            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                            icon: 'bank-transfer-in'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'up'
+                                root.manager.current = 'Addcash'
+                            # -- add coins to wallet --
+
+                        MDLabel:
+                            text: 'ADD CASH'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: transfer
+                            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                            icon: 'bank-transfer-out'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'up'
+                                root.manager.current = 'TransferAmd'
+                            # -- Transfer money to another account --
+
+                        MDLabel:
+                            text: 'SHARE CASH'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: stat
+                            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                            icon: 'chart-bar'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            # -- Total Expernse --
+
+                        MDLabel:                            
+                            text: 'STAT'
+                            font_size: 12
+                            halign: 'center'
+
+                    MDCard:
+                        elevation: 2
+                        padding: 10
+                        orientation: 'vertical'
+
+                        MDIconButton:
+                            id: reward
+                            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                            icon: 'wallet-giftcard'
+                            icon_size: 35
+                            size_hint: 1, 2.5
+                            on_press:
+                                root.manager.transition.direction = 'up'
+                                root.manager.current = 'RewardScreen'
+                            # -- Offer for transitions --
+
+                        MDLabel:
+                            text: 'REWARDS'
+                            font_size: 12
+                            halign: 'center'
+
+                MDSeparator:
+                    width: 1
+
+                MDBoxLayout:
+                    spacing: 10
+                    padding: 0
+                    size_hint: 1, None
+
+                    MDTextField:
+                        id: IPCode
+                        hint_text: 'Offer code'
+                        mode: 'rectangle'
+                        pos_hint: {'top': 1}
+                        requried: True
+                        #size_hint: 0.82, 0.55
+                        on_text: app.Text_Capital(self)
+
+
+                    MDRaisedButton:
+                        text: 'Apply'
+                        pos_hint: {'top': 0.95}
+                        size_hint: 0.18, 0.5
+                        on_press: root.CheckOCode()
+
+                MDBoxLayout:
+                    size_hint: 1, 0.3
+
+                    ScrollView:
+                        scroll_timeout: 100
+                        
+                        MDStackLayout:
+                            id: OfferList
+                            spacing: 3
+                            size_hint: 1, None
+
+
+        MDBottomNavigationItem:
+            name: "Screen 3"
+            text: "Notification"
+            icon: "bell-outline"
+            badge_icon: 'numeric-0'
+            # -- Notification Bar --
+            #currently empty
+
+            MDBoxLayout:
+                spacing: 10
+                padding: 10
+                orientation: 'vertical'
+
+                ScrollView:
+
+                    MDStackLayout:
+                        id: Notify
+                        spacing: 5
+                        size_hint: 1, None
+                        height: self.height
+
+                MDSeparator:
+                
+                MDFlatButton:
+                    text: 'CLEAR'
+                    size_hint: 1, 0.069
+                    pos_hint: {'top': 0.0}
+                    on_press: root.ClearNoti()
+
+        MDBottomNavigationItem:
+            name: "Screen 4"
+            text: "Profile"
+            icon: "account-circle-outline"
+
+            MDStackLayout:
+                spacing: 15
+
+                padding: 15
+
+                MDCard:
+                    spacing: 5
+                    padding: 10
+                    size_hint: 1, 0.2
+                    radius: 25
+                    orientation: 'horizontal'
+
+                    MDIcon:
+                        icon: 'account-circle'
+                        halign: 'center'
+                        font_size: 75
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                        # profile picture
+
+                    MDLabel:
+                        id: CTUname
+                        text: 'root.UserName'
+                        
+
+                MDCard:
+                    elevation: 2
+                    radius: 1
+                    size_hint: 1, 0.069
+
+                    MDLabel:
+                        id: CTBaln
+                        text: ''
+                        halign: 'center'
+
+                MDCard:
+                    padding: 10
+                    spacing: 10
+                    size_hint: 1, None
+                    height: self.minimum_height
+                    elevation: 1
+                    radius: 24
+
+                    MDList:
+                        padding: 5
+
+                        OneLineListItem:
+                            id: PrfUname
+                            text: 'Name : root.UserName'
+
+                        OneLineListItem:
+                            id: PrfNo
+                            text: 'Ph Number : root.phoneNumber '
+
+                        OneLineListItem: 
+                            id: Uaddr
+                            text: 'Address : root.UserAddress'
+
+                        OneLineListItem:
+                            id: Email
+                            text: 'Email : root.UserEmail'
+
+                        MDRectangleFlatIconButton:
+                            text: 'edit'
+                            icon: 'pencil'
+                            size_hint: 1, None
+                            line_color: 0,0,0,0
+
+                MDSeparator:
+                
+                MDRectangleFlatIconButton:
+                    icon: 'logout'
+                    text: 'log-out'
+
+                    size_hint: 1, 0.02
+                    line_color: 0, 0, 0, 0
+                    text_color: 1, 1, 1, 0.7
+                    icon_color: 1, 1, 1, 0.7
+
+                    on_press: root.logoutValidate()
+
+                MDSeparator:
+
+                MDFlatButton:
+                    text: "Contact customer care"
+                    size_hint: 1, 0.02
+                    pos_hint: {'top': 0.0}
+                    on_release: root.CustomerCare_support()
+
+
+<ShoppingList>:
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 12
+            pos_hint: {'top': 1.0}
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.current = 'CTMHome'
+
+        MDTextField:
+            id: Search
+            icon_right: 'tag-search'
+            mode: 'rectangle'
+
+
+        MDSeparator:
+
+        ScrollView:
+            scroll_timeout: 100
+
+            MDStackLayout:
+                size_hint: 1, None
+                height: self.height
+                id: ListViewItem
+
+    
+<Offline>
+    MDBoxLayout:
+        pos_hint:{'center_y': 0.5}
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+
+        MDFlatButton:
+            text: '< Back'
+            font_size: 12
+            on_press: root.BackBtn()
+
+        MDSeparator:
+
+        MDBoxLayout:
+            spacing: 10
+            padding: 5
+            orientation: 'vertical'
+            pos_hint: {'top': 1}
+            size_hint: 1, None
+            height: self.height
+
+            MDCard:
+                id: camFrame
+                padding: 10
+                elevation: 2
+                pos_hint: {'center_x': 0.5,'top': 1}
+                size_hint: 0.5, 0.5
+
+                ZBarCam:
+                    id: QRCam
+
+        MDTextField:
+            id: QRData
+            hint_text: 'Product ID'
+            readonly: True
+            mode: 'rectangle'
+            text: ' '.join([str(symbol.data) for symbol in QRCam.symbols])
+            on_text: root.QRreaded_data(self.text)
+
+        MDBoxLayout:
+            id: DataTable
+            pos_hint: {'center_x': 0.5,'top': 1.0}
+            size_hint: 1, 0.6
+
+    MDFillRoundFlatButton:
+        # -- Payment Button --
+        id :PayBtn
+        text: 'Pay 0 ₹'
+        pos_hint: {'center_x': 0.5}
+        on_press: root.PayAmount()
+
+
+<MoreRecomd>:
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 10
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'CTMHome'
+
+        ScrollView:
+
+            MDStackLayout:
+                id: MoreRmd
+                size_hint: 1, None
+                spacing: 10
+
+
+<Addcash>:
+    MDCard:
+        padding: 10
+        elevation: 1
+        size_hint: 0.9, 0.6
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+    
+        MDGridLayout:
+            cols: 1
+            spacing: 10
+            padding: 10
+
+            MDLabel:
+                text: "Add to WALLET"
+                halign: 'center'
+
+            MDSeparator:
+
+            MDTextField:
+                id: UPIPhno
+                hint_text: 'User Phone Number'
+                mode: 'rectangle'
+                input_filter: 'int'
+                requried: True
+                max_text_length: 10
+                on_text: root.VerifyNumber(self)
+
+            MDTextField:
+                id: OTPpay
+                hint_text: 'OTP'
+                mode: 'rectangle'
+                input_filter: 'int'
+                requried: True
+                max_text_length: 5
+                on_text: root.OTPVrify(self)
+
+            MDTextField:
+                id: PayAmd
+                requried: True
+                hint_text: 'Amount'
+                mode: 'rectangle'
+
+            MDTextField:
+                id: UserPassword
+                requried: True
+                hint_text: 'User Password'
+                mode: 'rectangle'
+                password: True
+
+            MDBoxLayout:
+
+                size_hint: 1, None
+                height: self.minimum_height
+                padding: 10
+                spacing: 10
+
+                MDFlatButton:
+                    text: 'CANCEL'
+                    on_press: root.PayLeave()
+
+                MDRaisedButton:
+                    text: 'CONFIRM'
+                    on_press: root.Verify_Pay()
+
+
+<TransferAmd>:
+    MDCard:
+        padding: 10
+        elevation: 1
+        size_hint: 0.9, 0.6
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+    
+        MDGridLayout:
+            cols: 1
+            spacing: 10
+            padding: 10
+
+            MDLabel:
+                text: "Transfer Amount"
+                halign: 'center'
+
+            MDSeparator:
+
+            MDTextField:
+                id: SendPhno
+                requried: True
+                hint_text: 'User Phone Number'
+                mode: 'rectangle'
+                input_filter: 'int'
+                max_text_length: 10
+                on_text: root.Verify_usr_No(self)
+
+            MDTextField:
+                id: reciverPh
+                requried: True
+                hint_text: 'Reciver Number'
+                mode: 'rectangle'
+                input_filter: 'int'
+                max_text_length: 10
+                on_text: root.Verify_rsf_No(self)
+
+            MDTextField:
+                id: TfrAmt
+                hint_text: 'Amount'
+                mode: 'rectangle'
+                requried: True
+                on_text: root.AmountCheck(self)
+
+            MDTextField:
+                id: UserPassword
+                requried: True
+                hint_text: 'User Password'
+                mode: 'rectangle'
+                password: True
+
+            MDBoxLayout:
+                size_hint: 1, None
+                height: self.minimum_height
+                padding: 10
+                spacing: 10
+
+                MDFlatButton:
+                    text: 'CANCEL'
+                    on_press: root.GOBack()
+
+                MDRaisedButton:
+                    text: 'CONFIRM'
+                    on_press: root.transferConfirm()
+
+
+<RewardScreen>:
+    MDStackLayout:
+        spacing: 10
+        padding: 10
+           
+           
+        MDFlatButton:
+            text: '< BACK'
+            font_size: 10
+            on_press:
+                root.manager.transition.direction = 'down'
+                root.manager.current = 'CTMHome'
+
+        MDSeparator:
+        
+        ScrollView:
+
+            MDStackLayout:
+                id: RewardIm
+                spacing: 10
+                size_hint: 1, None
+                height: self.height
